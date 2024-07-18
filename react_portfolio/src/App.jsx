@@ -3,6 +3,7 @@ import Navbar from "./Components/Navbar/Navbar";
 import Hero from "./Components/Hero/Hero";
 import HeroText from "./Components/HeroText/HeroText";
 import Projects from "./Projects/Projects";
+import Footer from "./Footer/Footer";
 function App() {
   return (
     <>
@@ -12,6 +13,7 @@ function App() {
         <HeroText />
       </div>
       <Projects />
+      <Footer />
     </>
   );
 }
