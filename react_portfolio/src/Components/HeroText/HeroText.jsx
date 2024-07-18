@@ -10,15 +10,21 @@ const HeroText = () => {
         <div>MERN stack & Flutter developer</div>
       </div>
       <div className="main py-10 leading-loose text-gray-400 px-4">
-        Hi there! My name is Arion Dutta and I’m{" "}
-        <span className="px-2">Computer Science Engineering student</span> from
-        Assam, India. I love all things tech{" "}
-        <span className="px-4">and coding, I love to explore tech and</span>{" "}
+        Hi there! My name is Arion Dutta and I’m
+        <span className="px-2 md:px-1">
+          Computer Science Engineering student
+        </span>{" "}
+        from Assam, India. I love all things tech
+        <span className="px-4 md:px-1">
+          and coding, I love to explore tech and
+        </span>
         would absolutely love to collaborate with others to create amazing tech
         solutions
       </div>
       <div className="flex justify-center">
-        <Button text="Connect on Github" />
+        <a href="https://github.com/ArionDutta33">
+          <Button text="Connect on Github" />
+        </a>
       </div>
     </main>
   );
