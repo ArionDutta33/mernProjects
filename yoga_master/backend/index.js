@@ -196,7 +196,28 @@ async function run() {
                     availableSeats: classes.reduce((total, current) => total + currnt.availableSeats, 0) - 1 || 0
                 }
             }
-            const updatedResult = await classesCollection.updateMany
+            const updatedResult = await classesCollection.updateMany(classesQuery, updatedDoc, { upsert: true });
+            const enrolledResult = await enrolledCollection.insertOne(newEnrolledData);
+            const deletedResult = await cartCollection.deleteMany(query);
+            const paymentResult = await paymentCollection.insertOne(paymentInfo);
+
+            res.send({ paymentResult, deletedResult, enrolledResult, updatedResult });
+        });
+
+        //get payment history
+        app.get("/payment-history/:email", async (req, res) => {
+            const email = req.params.email;
+            const query = { userEmail: email }//!typo
+            const result = await paymentCollection.find(query).sort({ date: -1 }).toArray();
+            res.send(result)
+        })
+
+        //payment history length
+        app.get("/payment-history-length/:email", async (req, res) => {
+            const email = req.params.email;
+            const query = { userEmail: email }
+            const total = await paymentCollection.countDocuments(query);
+            res.send(total)
         })
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
