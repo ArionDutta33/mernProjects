@@ -219,6 +219,12 @@ async function run() {
             const total = await paymentCollection.countDocuments(query);
             res.send(total)
         })
+
+        //enrollment route
+        app.get("/popular_classes", async (req, res) => {
+            const result = await classesCollection.find().sort({ totalEnrolled: -1 }).limit(6).toArray();
+            res.send(result)
+        })
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
