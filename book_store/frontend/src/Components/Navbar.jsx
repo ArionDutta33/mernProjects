@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Login from "./Login";
 
 const Navbar = () => {
   const [theme, settheme] = useState(
@@ -145,9 +146,15 @@ const Navbar = () => {
               </svg>
             </label>
             <div className=" ">
-              <a className="bg-black text-white px-3 py-2 rounded-md hover:bg-slate-800 duration-300 cursor-pointer ">
+              <a
+                onClick={() => {
+                  document.getElementById("my_modal_3").showModal();
+                }}
+                className="bg-black text-white px-3 py-2 rounded-md hover:bg-slate-800 duration-300 cursor-pointer "
+              >
                 Login
               </a>
+              <Login />
             </div>
           </div>
         </div>
