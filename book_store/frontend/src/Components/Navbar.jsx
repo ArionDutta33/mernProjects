@@ -1,9 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-<<<<<<< HEAD
-=======
 import { Link } from "react-router-dom";
->>>>>>> aa287bfb3def1b9511d0dcb94cd4c98cf2862301
 
 const Navbar = () => {
   const [sticky, setsticky] = useState(false);
@@ -39,7 +36,7 @@ const Navbar = () => {
   return (
     <>
       <div
-        className={` max-w-screen-2xl container mx-auto md:px-20 px-4 w-full fixed top-0 left-0 right-0 ${
+        className={` max-w-screen-2xl container mx-auto md:px-20 px-4 w-full fixed top-0 left-0 right-0 z-50 ${
           sticky
             ? " sticky-navbaar shadow-md bg-base-200  transition-all ease-in-out"
             : ""
