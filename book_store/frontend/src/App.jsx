@@ -1,8 +1,12 @@
 import Home from "./Home/Home";
 import Courses from "./Courses/Courses";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Signup from "./Components/Signup";
+import { Toaster } from "react-hot-toast";
+import { useAuth } from "./Context/AuthProvider";
 const App = () => {
+  const [authUser, setAuthUser] = useAuth();
+  console.log(authUser);
   return (
     <>
       {/* <Home />
@@ -11,9 +15,13 @@ const App = () => {
         {" "}
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/course" element={<Courses />} />
+          <Route
+            path="/course"
+            element={authUser ? <Courses /> : <Navigate to={"/signup"} />}
+          />
           <Route path="/signup" element={<Signup />} />
         </Routes>
+        <Toaster />
       </div>
     </>
   );
