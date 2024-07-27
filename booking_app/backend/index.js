@@ -5,6 +5,7 @@ const mongoose = require("mongoose")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const User = require("./models/user")
+const cookieParser = require("cookie-parser")
 mongoose.connect("mongodb://127.0.0.1:27017/airbnb").then(() => {
     console.log("mongodb connected")
 })
@@ -12,7 +13,8 @@ mongoose.connect("mongodb://127.0.0.1:27017/airbnb").then(() => {
 const bcryptSalt = bcrypt.genSaltSync(12);
 const jwtTokenSecret = "78uijrkajnuhido938uwey"
 
-app.use(express.json())
+app.use(express.json());
+app.use(cookieParser())
 app.use(cors({
     credentials: true,
     origin: "http://localhost:5173"
@@ -42,7 +44,7 @@ app.post("/login", async (req, res) => {
             jwt.sign({ email: userDoc.email, id: userDoc._id }, jwtTokenSecret, {}, (err, token) => {
                 if (err) throw err;
 
-                res.cookie("token", token).json("pass ok")
+                res.cookie("token", token).json(userDoc)
             })
         } else {
             res.status(422).json("not correct")
@@ -50,6 +52,20 @@ app.post("/login", async (req, res) => {
     } else {
         res.json("not founds")
     }
+})
+
+app.get("/profile", (req, res) => {
+    const { token } = req.cookies;
+    if (token) {
+        jwt.verify(token, jwtTokenSecret, {}, async (err, userData) => {
+            if (err) throw err;
+            const { name, email, _id } = await User.findById(userData.id)
+            res.json({ name, email, _id })
+        })
+    } else {
+        res.json(null)
+    }
+
 })
 app.listen(3000, () => {
     console.log("server up")
