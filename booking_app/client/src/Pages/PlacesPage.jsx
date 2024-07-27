@@ -28,10 +28,12 @@ export default function PlacesPage() {
     const files = e.target.files;
     const data = new FormData();
     // for (const file of files) {
-    data.set("photos[]", files);
+    for (let i = 0; i < files.length; i++) {
+      data.append("photos", files[i]);
+    }
     // }
     axios
-      .post("/uploads", data, {
+      .post("/upload", data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

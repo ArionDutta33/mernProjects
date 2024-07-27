@@ -86,7 +86,7 @@ app.post("/upload-by-link", async (req, res) => {
 })
 const photosMiddlware = multer({ dest: "uploads" })
 app.post("/upload", photosMiddlware.array("photos", 100), (req, res,) => {
-    res.json(req.photos)
+    res.json(req.files)
 })
 app.listen(3000, () => {
     console.log("server up")
