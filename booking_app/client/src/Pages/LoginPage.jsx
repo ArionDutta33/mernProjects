@@ -1,19 +1,29 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { UserContext } from "../UserContext";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [redirect, setRedirect] = useState(false);
+  const { setUser } = useContext(UserContext);
   async function handleLogin(e) {
     e.preventDefault();
     try {
-      await axios.post("/login", { email, password });
+      const response = await axios.post("/login", { email, password });
+      setUser(response.data);
       toast.success("Successfully logged in");
+      setRedirect(true);
     } catch (error) {
       toast.error("Something went wrong");
     }
   }
+
+  if (redirect) {
+    return <Navigate to={"/"} />;
+  }
+
   return (
     <>
       <Toaster />
