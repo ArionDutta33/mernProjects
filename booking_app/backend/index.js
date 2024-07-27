@@ -6,6 +6,7 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const User = require("./models/user")
 const cookieParser = require("cookie-parser")
+const imageDownloader = require("image-downloader")
 mongoose.connect("mongodb://127.0.0.1:27017/airbnb").then(() => {
     console.log("mongodb connected")
 })
@@ -15,6 +16,7 @@ const jwtTokenSecret = "78uijrkajnuhido938uwey"
 
 app.use(express.json());
 app.use(cookieParser())
+app.use("/uploads", express.static(__dirname + "/uploads"))
 app.use(cors({
     credentials: true,
     origin: "http://localhost:5173"
@@ -69,6 +71,17 @@ app.get("/profile", (req, res) => {
 })
 app.post("/logout", (req, res) => {
     res.cookie("token", "").json(true)
+})
+
+app.post("/upload-by-link", async (req, res) => {
+    const { link } = req.body
+    const newName = 'photo' + Date.now() + '.jpg'
+    await imageDownloader.image({
+        url: link,
+        dest: __dirname + "/uploads/" + newName
+    })
+    res.json(newName)
+
 })
 app.listen(3000, () => {
     console.log("server up")
