@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken")
 const User = require("./models/user")
 const cookieParser = require("cookie-parser")
 const imageDownloader = require("image-downloader")
+const multer = require("multer")
 mongoose.connect("mongodb://127.0.0.1:27017/airbnb").then(() => {
     console.log("mongodb connected")
 })
@@ -82,6 +83,10 @@ app.post("/upload-by-link", async (req, res) => {
     })
     res.json(newName)
 
+})
+const photosMiddlware = multer({ dest: "uploads" })
+app.post("/upload", photosMiddlware.array("photos", 100), (req, res,) => {
+    res.json(req.photos)
 })
 app.listen(3000, () => {
     console.log("server up")

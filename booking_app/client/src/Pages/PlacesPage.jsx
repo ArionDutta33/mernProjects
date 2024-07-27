@@ -24,6 +24,26 @@ export default function PlacesPage() {
     });
     setPhotoLink("");
   }
+  async function uploadPhotos(e) {
+    const files = e.target.files;
+    const data = new FormData();
+    // for (const file of files) {
+    data.set("photos[]", files);
+    // }
+    axios
+      .post("/uploads", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        const { data: filename } = response;
+        setAddedPhotos((prev) => {
+          return [...prev, filename];
+        });
+      });
+  }
+
   return (
     <div>
       {action !== "new" && (
@@ -100,7 +120,12 @@ export default function PlacesPage() {
                   </div>
                 ))}
               <label className="cursor-pointer border items-center flex gap-1 justify-center bg-transparent rounded-2xl p-2 text-2xl text-gray-600">
-                <input type="file" className="hidden" />
+                <input
+                  onChange={uploadPhotos}
+                  type="file"
+                  multiple
+                  className="hidden"
+                />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
