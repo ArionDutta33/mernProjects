@@ -1,9 +1,18 @@
-export default function Perks({ selcted, onChange }) {
+export default function Perks({ selected, onChange }) {
+  function handlecheckbox(ev) {
+    // console.log(ev.target.name);
+    const { checked, name } = ev.target;
+    if (checked) {
+      onChange([...selected, name]);
+    } else {
+      onChange([...selected.filter((selectedName) => selectedName !== name)]);
+    }
+  }
   return (
     <>
       <div className="grid gap-2 grid-cols-2 md:grid-cols-3  lg:grid-cols-6">
         <label className="border p-4 flex cursor-pointer rounded-2xl gap-2 items-center">
-          <input type="checkbox" />
+          <input onChange={handlecheckbox} name="wifi" type="checkbox" />
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -22,7 +31,7 @@ export default function Perks({ selcted, onChange }) {
           <span>Wifi</span>
         </label>
         <label className="border p-4 flex cursor-pointer rounded-2xl gap-2 items-center">
-          <input type="checkbox" />
+          <input onChange={handlecheckbox} name="parking" type="checkbox" />
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -41,7 +50,7 @@ export default function Perks({ selcted, onChange }) {
           <span>Free parking</span>
         </label>
         <label className="border p-4 flex cursor-pointer rounded-2xl gap-2 items-center">
-          <input type="checkbox" />
+          <input onChange={handlecheckbox} name="tv" type="checkbox" />
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -60,7 +69,7 @@ export default function Perks({ selcted, onChange }) {
           <span>TV</span>
         </label>
         <label className="border p-4 flex cursor-pointer rounded-2xl gap-2 items-center">
-          <input type="checkbox" />
+          <input onChange={handlecheckbox} name="radio" type="checkbox" />
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -79,7 +88,7 @@ export default function Perks({ selcted, onChange }) {
           <span>Radio</span>
         </label>
         <label className="border p-4 flex cursor-pointer rounded-2xl gap-2 items-center">
-          <input type="checkbox" />
+          <input onChange={handlecheckbox} name="pets" type="checkbox" />
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -98,7 +107,7 @@ export default function Perks({ selcted, onChange }) {
           <span>Pets</span>
         </label>
         <label className="border p-4 flex cursor-pointer rounded-2xl gap-2 items-center">
-          <input type="checkbox" />
+          <input onChange={handlecheckbox} name="entrance" type="checkbox" />
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

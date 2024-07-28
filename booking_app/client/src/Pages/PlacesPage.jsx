@@ -113,15 +113,15 @@ export default function PlacesPage() {
             <div className="grid gap-2 grid-cols-3 lg:grid-col-6 md:grid-cols-4 mt-2">
               {addedPhotos.length > 0 &&
                 addedPhotos.map((link) => (
-                  <div key={link.id}>
+                  <div className="h-32 flex" key={link.id}>
                     <img
-                      className="rounded-2xl"
+                      className="rounded-2xl w-full object-cover"
                       src={"http://localhost:3000/uploads/" + link}
                       alt=""
                     />
                   </div>
                 ))}
-              <label className="cursor-pointer border items-center flex gap-1 justify-center bg-transparent rounded-2xl p-2 text-2xl text-gray-600">
+              <label className="h-32 cursor-pointer border items-center flex gap-1 justify-center bg-transparent rounded-2xl p-2 text-2xl text-gray-600">
                 <input
                   onChange={uploadPhotos}
                   type="file"
