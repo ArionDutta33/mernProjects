@@ -39,9 +39,9 @@ export default function PlacesPage() {
         },
       })
       .then((response) => {
-        const { data: filename } = response;
+        const { data: filenames } = response;
         setAddedPhotos((prev) => {
-          return [...prev, filename];
+          return [...prev, ...filenames];
         });
       });
   }
