@@ -5,6 +5,7 @@ const mongoose = require("mongoose")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const User = require("./models/user")
+const Place = require("./models/place")
 const cookieParser = require("cookie-parser")
 const imageDownloader = require("image-downloader")
 const multer = require("multer")
@@ -97,6 +98,27 @@ app.post("/upload", photosMiddlware.array("photos", 100), (req, res,) => {
         uploadedFiles.push(newPath.replace("uploads/", ""))
     }
     res.json(uploadedFiles)
+})
+
+app.post("/places", async (req, res) => {
+    const { token } = req.cookies
+    const { title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests } = req.body
+    jwt.verify(token, jwtTokenSecret, {}, async (err, userData) => {
+        if (err) throw err;
+        const placeDoc = await Place.create({
+            owner: userData.id,
+            title,
+            address,
+            addedPhotos,
+            description,
+            perks,
+            extraInfo,
+            checkIn,
+            checkOut
+
+        })
+        res.json(placeDoc)
+    })
 })
 app.listen(3000, () => {
     console.log("server up")

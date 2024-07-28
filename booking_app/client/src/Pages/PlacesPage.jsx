@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import Perks from "../Perks";
 import axios from "axios";
 export default function PlacesPage() {
@@ -11,9 +11,10 @@ export default function PlacesPage() {
   const [description, setDescription] = useState("");
   const [perks, setPerks] = useState([]);
   const [extraInfo, setExtraInfo] = useState("");
-  const [checkin, setCheckin] = useState("");
-  const [checkout, setCheckout] = useState("");
+  const [checkIn, setcheckIn] = useState("");
+  const [checkOut, setcheckOut] = useState("");
   const [maxguests, setMaxGuests] = useState(1);
+  const [redirect, setRedirect] = useState("");
   async function addPhoto(e) {
     e.preventDefault();
     const { data: filename } = await axios.post("upload-by-link", {
@@ -45,6 +46,26 @@ export default function PlacesPage() {
         });
       });
   }
+  async function addNewPlace(e) {
+    e.preventDefault();
+
+    await axios.post("/places", {
+      title,
+      address,
+      addedPhotos,
+      description,
+      perks,
+      extraInfo,
+      checkIn,
+      checkOut,
+      maxguests,
+    });
+    setRedirect("/account/places");
+  }
+
+  if (redirect) {
+    return <Navigate to={redirect} />;
+  }
 
   return (
     <div>
@@ -74,7 +95,7 @@ export default function PlacesPage() {
       )}
       {action == "new" && (
         <div>
-          <form action="">
+          <form onSubmit={addNewPlace}>
             <h2 className="text-2xl mt-4">Title</h2>
             <p className="text-gray-500 text-sm">
               Title for your place..should be short and cathcy in advertisement
@@ -175,16 +196,16 @@ export default function PlacesPage() {
                 <input
                   type="text"
                   placeholder="14:00"
-                  value={checkin}
-                  onChange={(ev) => setCheckin(ev.target.value)}
+                  value={checkIn}
+                  onChange={(ev) => setcheckIn(ev.target.value)}
                 />
               </div>
               <div>
                 <h3 className="mt-2 -mb-1">Check out time</h3>
                 <input
                   type="text"
-                  value={checkout}
-                  onChange={(ev) => setCheckout(ev.target.value)}
+                  value={checkOut}
+                  onChange={(ev) => setcheckOut(ev.target.value)}
                 />
               </div>
               <div>
