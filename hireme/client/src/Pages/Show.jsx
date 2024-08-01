@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import InfoPage from "../../Section/InfoPage";
+// import Collections from "../../Section/Collections";
 import Collections from "../../Section/Collections";
 const Show = () => {
   const [isInfo, setisInfo] = useState(true);
