@@ -10,6 +10,8 @@ const photographerSchema = new mongoose.Schema({
     phone: Number,
     address: String,
     bio: String,
+    profilePic: String,
+    bgpic: String,
     portfolioImages: [
         {
             type: String

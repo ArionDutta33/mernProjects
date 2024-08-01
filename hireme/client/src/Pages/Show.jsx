@@ -10,7 +10,7 @@ const Show = () => {
       <div className="bg">
         <Navbar isTransparent={true} />
         <img
-          className="relative w-full h-44 object-cover object-center"
+          className="relative w-full h-44 object-cover object-center -z-10"
           src="https://images.pexels.com/photos/466685/pexels-photo-466685.jpeg?auto=compress&cs=tinysrgb&w=300"
           alt=""
         />
@@ -70,7 +70,7 @@ const Show = () => {
       </div>
       <div className="tags justify-around cursor-pointer flex my-4 ">
         <div
-          onClick={setisInfo(true)}
+          onClick={() => setisInfo(true)}
           className="text-sm text-gray-400 cursor-pointer hover:text-black hover:border-b hover:border-b-red-600"
         >
           Info
