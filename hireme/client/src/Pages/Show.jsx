@@ -1,17 +1,20 @@
 import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import InfoPage from "../../Section/InfoPage";
-// import Collections from "../../Section/Collections";
+//importing form modal
+import ModalForm from "../Components/ModalForm";
 import { useParams } from "react-router-dom";
-
 import Collections from "../../Section/Collections";
 const Show = () => {
   const [isInfo, setisInfo] = useState(true);
+
   const path = useParams();
+  //send ing email
+  //removed the handler fn
   return (
     <div className="main">
-      {console.log(path)}
-      <div className="bg">
+      {console.log(path.id)}
+      <div className="bg ">
         <Navbar isTransparent={true} />
         <img
           //!removed relative
@@ -25,7 +28,9 @@ const Show = () => {
           alt=""
         />
       </div>
-      <div className="bio   flex-col mt-24 flex items-center justify-center">
+      <div className="bio  relative  flex-col mt-24 flex items-center justify-center">
+        {/* removed the modal from */}
+        <ModalForm id={path.id} />
         <span className="text-xl font-semibold relative">John Doe</span>
         {/*<div className="bg-blue-400 text-white rounded-full flex flex-col sitems-center left-64 top-16 items-center justify-center  absolute h-20 w-20">
           Hire me
@@ -72,7 +77,12 @@ const Show = () => {
       </div>
       <div className="  my-4 mb-8 flex justify-center">
         {" "}
-        <button className="bg-blue-400 text-white text-sm flex  px-4 py-2 gap-2 rounded-md">
+        <button
+          onClick={() => {
+            setshowModal(true);
+          }}
+          className="bg-blue-400 text-white text-sm flex  px-4 py-2 gap-2 rounded-md"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

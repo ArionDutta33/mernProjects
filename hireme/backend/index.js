@@ -50,6 +50,9 @@ app.get("/test", async (req, res) => {
 //     }
 // })
 
+app.post("/email-send", (req, res) => {
+    console.log(req.body)
+})
 app.listen(3000, () => {
     console.log("server up")
 })
