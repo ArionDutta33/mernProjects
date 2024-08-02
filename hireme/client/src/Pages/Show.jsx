@@ -1,9 +1,9 @@
 import { useState } from "react";
 import Navbar from "../Components/Navbar";
-import InfoPage from "../../Section/InfoPage";
+import InfoPage from "../Section/InfoPage";
 //importing form modal
 import { useNavigate, useParams } from "react-router-dom";
-import Collections from "../../Section/Collections";
+import Collections from "../Section/Collections";
 const Show = () => {
   const [isInfo, setisInfo] = useState(true);
 

@@ -61,6 +61,10 @@ app.post("/email-send", async (req, res) => {
 // app.post("/email-send", (req, res) => {
 //     console.log(req.body)
 // })
+
+app.post("/login", (req, res) => {
+    console.log(req.body)
+})
 app.listen(3000, () => {
     console.log("server up")
 })

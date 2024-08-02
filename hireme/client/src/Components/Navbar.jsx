@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Navbar = (props) => {
   return (
     <nav
@@ -9,7 +11,9 @@ const Navbar = (props) => {
     >
       <div className="logo font-bold text-lg">Logo</div>
       <div className="links flex gap-4">
-        <div className="btn">Login</div>
+        <Link to={"/login"} className="btn">
+          Login
+        </Link>
         <div className="btn">Register</div>
       </div>
     </nav>
