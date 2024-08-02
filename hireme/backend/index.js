@@ -29,26 +29,34 @@ app.get("/test", async (req, res) => {
     res.status(200).json({ message: 'ok', data: test })
 })
 
-//email set up
 app.post("/email-send", async (req, res) => {
-    const { photographerId, subject, text } = req.body;
+    const { photographerId, senderEmail, subject, text } = req.body;
     const photographer = await photographerModel.findById(photographerId);
-    const photgrapherEmail = photographer.email;
-    const photographerName = photographer.firstname + photographer.lastname;
+
+    if (!photographer) {
+        return res.status(404).json({ message: "Photographer not found" });
+    }
+
+    const photographerEmail = photographer.email;
+    const photographerName = `${photographer.firstname} ${photographer.lastname}`;
 
     const mailOptions = {
-        from: process.env.USER_MAIL,
-        to: photgrapherEmail,
+        from: process.env.user_mail,
+        to: photographerEmail,
         subject: subject,
-        text: text
-    }
+        text: `Message from ${senderEmail}:\n\n${text}`,
+        replyTo: senderEmail
+    };
+
     try {
         await transporter.sendMail(mailOptions);
-        res.status(200).json({ message: "Email sent successfully" })
+        res.status(200).json({ message: "Email sent successfully" });
     } catch (error) {
-        res.status(500).json({ message: "Failed to send email", error })
+        res.status(500).json({ message: "Failed to send email", error });
     }
-})
+
+    console.log(req.body.senderEmail);
+});
 
 // app.post("/email-send", (req, res) => {
 //     console.log(req.body)
