@@ -2,13 +2,13 @@ import { useState } from "react";
 import Navbar from "../Components/Navbar";
 import InfoPage from "../../Section/InfoPage";
 //importing form modal
-import ModalForm from "../Components/ModalForm";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Collections from "../../Section/Collections";
 const Show = () => {
   const [isInfo, setisInfo] = useState(true);
 
   const path = useParams();
+  const navigate = useNavigate();
   //send ing email
   //removed the handler fn
   return (
@@ -30,7 +30,7 @@ const Show = () => {
       </div>
       <div className="bio  relative  flex-col mt-24 flex items-center justify-center">
         {/* removed the modal from */}
-        <ModalForm id={path.id} />
+        {/* <ModalForm id={path.id} /> */}
         <span className="text-xl font-semibold relative">John Doe</span>
         {/*<div className="bg-blue-400 text-white rounded-full flex flex-col sitems-center left-64 top-16 items-center justify-center  absolute h-20 w-20">
           Hire me
@@ -79,7 +79,7 @@ const Show = () => {
         {" "}
         <button
           onClick={() => {
-            setshowModal(true);
+            navigate(`/${path.id}/email-send`);
           }}
           className="bg-blue-400 text-white text-sm flex  px-4 py-2 gap-2 rounded-md"
         >
