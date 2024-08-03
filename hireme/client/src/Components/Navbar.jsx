@@ -11,10 +11,10 @@ const Navbar = (props) => {
     >
       <div className="logo font-bold text-lg">Logo</div>
       <div className="links flex gap-4">
-        <Link to={"/login"} className="btn">
-          Login
+        <Link to={"/register"} className="btn">
+          Register
         </Link>
-        <div className="btn">Register</div>
+        <div className="btn">Login</div>
       </div>
     </nav>
   );

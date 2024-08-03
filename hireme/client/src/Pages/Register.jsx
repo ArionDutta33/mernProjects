@@ -1,12 +1,15 @@
 import axios from "axios";
 import { useState } from "react";
 const Register = () => {
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const handleLogin = async () => {
+  const [email, setEmail] = useState("");
+  const handleRegister = async (e) => {
+    e.preventDefault();
     try {
-      const response = await axios.post("/login", {
-        name,
+      const response = await axios.post("/register", {
+        username,
+        email,
         password,
       });
     } catch (error) {
@@ -16,7 +19,7 @@ const Register = () => {
   return (
     <form
       className="flex items-center justify-center h-screen w-full px-5 sm:px-0"
-      onSubmit={handleLogin}
+      onSubmit={handleRegister}
     >
       <div className="flex bg-white rounded-lg overflow-hidden max-w-sm lg:max-w-4xl w-full">
         <div
@@ -34,8 +37,20 @@ const Register = () => {
             <input
               className="text-gray-700 border border-gray-300 rounded py-2 px-4 block w-full focus:outline-2 focus:outline-blue-700"
               type="text"
-              onChange={(e) => setName(e.target.value)}
-              value={name}
+              onChange={(e) => setUsername(e.target.value)}
+              value={username}
+              required
+            />
+          </div>
+          <div className="mt-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Email
+            </label>
+            <input
+              className="text-gray-700 border border-gray-300 rounded py-2 px-4 block w-full focus:outline-2 focus:outline-blue-700"
+              type="text"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
               required
             />
           </div>

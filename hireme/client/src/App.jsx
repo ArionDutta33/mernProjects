@@ -12,7 +12,7 @@ const App = () => {
       <Route path="/hireme" element={<Index />} />
       <Route path="/:id/email-send" element={<IndividualMessage />} />
       <Route path="/hireme/:id" element={<Show />} />
-      <Route path="/login" element={<Register />} />
+      <Route path="/register" element={<Register />} />
     </Routes>
   );
 };

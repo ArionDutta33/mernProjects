@@ -2,10 +2,13 @@ require("dotenv").config()
 const express = require("express")
 const mongoose = require("mongoose")
 const nodemailer = require("nodemailer")
-
+const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
+const User = require("./Models/user")
 const app = express()
 const photographerModel = require("./Models/photgrapher")
 const cors = require("cors")
+const cookieParser = require("cookie-parser")
 mongoose.connect("mongodb://127.0.0.1:27017/hiremeDB").then(() => {
     console.log("mongo up")
 })
@@ -16,6 +19,7 @@ const corsOptions = {
     optionsSuccessStatus: 200 // Proper property name
 };
 app.use(cors(corsOptions));
+app.use(cookieParser())
 app.use(express.json());
 //nodemailer configuration
 const transporter = nodemailer.createTransport({
@@ -63,9 +67,34 @@ app.post("/email-send", async (req, res) => {
     console.log(req.body.senderEmail);
 });
 
-// app.post("/email-send", (req, res) => {
-//     console.log(req.body)
-// })
+app.post("/register", async (req, res) => {
+    try {
+        console.log("hit")
+        const { username, password, email } = req.body
+        const salt = await bcrypt.genSalt(10)
+        const hash = await bcrypt.hash(password, salt)
+        const user = await User.create({
+            username,
+            email,
+            password: hash
+        })
+        await user.save()
+        const tokenJwt = jwt.sign({ email }, "secret")
+        res.cookie("jwttoken", tokenJwt, {
+            maxAge: 3600000, // Cookie expiration time (1 hour)
+            httpOnly: true, // Helps prevent XSS attacks by making the cookie inaccessible to JavaScript
+            secure: false, // Set to true if using HTTPS in production
+            sameSite: 'lax'
+
+        })
+        res.status(200).json({ message: "user registered", user })
+        console.log(req.body)
+    } catch (error) {
+        res.status(500).json({ error: error })
+    }
+})
+
+app.post("/logout")
 
 app.post("/login", (req, res) => {
     console.log(req.body)
