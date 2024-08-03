@@ -11,12 +11,12 @@ const Index = () => {
   useEffect(() => {
     async function call() {
       try {
-        const response = await axios.get("/test");
+        const response = await axios.get("/hireme");
         setPhotographers(response.data.data);
 
         console.log(response);
       } catch (error) {
-        console.log("error");
+        console.log("error", error);
       }
     }
     call();

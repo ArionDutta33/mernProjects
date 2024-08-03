@@ -10,8 +10,12 @@ mongoose.connect("mongodb://127.0.0.1:27017/hiremeDB").then(() => {
     console.log("mongo up")
 })
 
-
-app.use(cors());
+const corsOptions = {
+    origin: 'http://localhost:5173', // Allow requests from this origin
+    credentials: true, // Enable Access-Control-Allow-Credentials
+    optionsSuccessStatus: 200 // Proper property name
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 //nodemailer configuration
 const transporter = nodemailer.createTransport({
@@ -23,8 +27,9 @@ const transporter = nodemailer.createTransport({
 })
 //end
 
-app.get("/test", async (req, res) => {
+app.get("/hireme", async (req, res) => {
     const test = await photographerModel.find({})
+
 
     res.status(200).json({ message: 'ok', data: test })
 })
