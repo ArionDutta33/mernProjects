@@ -94,7 +94,9 @@ app.post("/register", async (req, res) => {
     }
 })
 
-app.post("/logout")
+app.post("/logout", (req, res) => {
+    res.cookie("jwttoken", "");
+})
 
 app.post("/login", (req, res) => {
     console.log(req.body)

@@ -1,9 +1,12 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 const Register = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
@@ -12,7 +15,11 @@ const Register = () => {
         email,
         password,
       });
+
+      navigate("/hireme");
     } catch (error) {
+      toast.error("Something went wrong. Try again !!!");
+      navigate("/register");
       console.log("error", error);
     }
   };
@@ -21,6 +28,7 @@ const Register = () => {
       className="flex items-center justify-center h-screen w-full px-5 sm:px-0"
       onSubmit={handleRegister}
     >
+      <Toaster />
       <div className="flex bg-white rounded-lg overflow-hidden max-w-sm lg:max-w-4xl w-full">
         <div
           className="hidden md:block lg:w-1/2 bg-cover bg-blue-700"
