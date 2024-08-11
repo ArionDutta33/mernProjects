@@ -69,38 +69,45 @@ app.post("/email-send", async (req, res) => {
 
 app.post("/register", async (req, res) => {
     try {
-        console.log("hit")
-        const { username, password, email } = req.body
+        const { email, password, username } = req.body
         const salt = await bcrypt.genSalt(10)
         const hash = await bcrypt.hash(password, salt)
+
+
         const user = await User.create({
             username,
             email,
             password: hash
         })
-        await user.save()
-        const tokenJwt = jwt.sign({ email }, "secret")
-        res.cookie("jwttoken", tokenJwt, {
-            maxAge: 3600000, // Cookie expiration time (1 hour)
-            httpOnly: true, // Helps prevent XSS attacks by making the cookie inaccessible to JavaScript
-            secure: false, // Set to true if using HTTPS in production
-            sameSite: 'lax'
-
-        })
-        res.status(200).json({ message: "user registered", user })
-        console.log(req.body)
+        const authtToken = jwt.sign({ email }, "secret")
+        res.status(200).json(authtToken)
     } catch (error) {
-        res.status(500).json({ error: error })
+        console.log(error)
+        res.status(500).json({ message: "something went wrong", error: error })
     }
 })
 
+app.post("/login", async (req, res) => {
+    try {
+        console.log("post request hit")
+        const { password, email } = req.body
+        const user = await User.findOne({ email: email })
+        if (!user) return res.status(500).json({ message: "Internal server error" })
+        const verify = await bcrypt.compare(password, user.password)
+        if (!verify) return res.status(500).json({ message: "Please use correct credentials" })
+
+        const authToken = jwt.sign({ email }, "secret")
+        res.json(authToken)
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Something went wrong", error: error })
+    }
+})
 app.post("/logout", (req, res) => {
     res.cookie("jwttoken", "");
 })
 
-app.post("/login", (req, res) => {
-    console.log(req.body)
-})
 app.listen(3000, () => {
     console.log("server up")
 })
